@@ -1,0 +1,97 @@
+<mvc:View
+    controllerName="com.enterprise.travelexpense.controller.RequestList"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        id="requestListPage"
+        title="{i18n>requestListTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+        busy="{appState>/busy}">
+
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Button icon="sap-icon://nav-back" press="onNavBack" type="Transparent" />
+                    <Title text="{i18n>requestListTitle}" />
+                </contentLeft>
+                <contentRight>
+                    <SearchField
+                        id="searchField"
+                        placeholder="{i18n>searchPlaceholder}"
+                        search="onSearch"
+                        width="15rem" />
+                    <Button
+                        id="btnCreate"
+                        text="{i18n>createRequest}"
+                        type="Emphasized"
+                        icon="sap-icon://create"
+                        press="onCreateRequest"
+                        visible="{= ${appState>/currentUser/role} === 'Employee'}" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <!-- Filter Bar -->
+        <subHeader>
+            <Bar>
+                <contentLeft>
+                    <SegmentedButton
+                        id="statusFilter"
+                        selectionChange="onStatusFilterChange">
+                        <items>
+                            <SegmentedButtonItem key="All" text="{i18n>filterAll}" />
+                            <SegmentedButtonItem key="Draft" text="{i18n>statusDraft}" />
+                            <SegmentedButtonItem key="Submitted" text="{i18n>statusSubmitted}" />
+                            <SegmentedButtonItem key="Approved" text="{i18n>statusApproved}" />
+                            <SegmentedButtonItem key="Rejected" text="{i18n>statusRejected}" />
+                        </items>
+                    </SegmentedButton>
+                </contentLeft>
+                <contentRight>
+                    <Text id="itemCount" text="{i18n>totalItems}" />
+                </contentRight>
+            </Bar>
+        </subHeader>
+
+        <content>
+            <List
+                id="requestList"
+                items="{requestList>/}"
+                noDataText="{i18n>noRequests}"
+                growing="true"
+                growingThreshold="20"
+                growingScrollToLoad="true">
+
+                <items>
+                    <ObjectListItem
+                        title="{requestList>RequestId} — {requestList>Destination}"
+                        intro="{requestList>EmployeeName}"
+                        number="{parts: ['requestList>EstimatedAmount', 'requestList>Currency'], formatter: '.formatter.formatAmount'}"
+                        numberState="{path: 'requestList>Status', formatter: '.formatter.statusState'}"
+                        highlight="{path: 'requestList>Status', formatter: '.formatter.statusHighlight'}"
+                        type="Navigation"
+                        press="onItemPress">
+
+                        <attributes>
+                            <ObjectAttribute
+                                title="{i18n>travelType}"
+                                text="{requestList>TravelType}" />
+                            <ObjectAttribute
+                                title="{i18n>startDate}"
+                                text="{path: 'requestList>StartDate', formatter: '.formatter.formatDate'}" />
+                            <ObjectAttribute
+                                title="{i18n>endDate}"
+                                text="{path: 'requestList>EndDate', formatter: '.formatter.formatDate'}" />
+                            <ObjectAttribute
+                                title="{i18n>status}"
+                                text="{requestList>Status}" />
+                        </attributes>
+                    </ObjectListItem>
+                </items>
+            </List>
+        </content>
+    </Page>
+</mvc:View>

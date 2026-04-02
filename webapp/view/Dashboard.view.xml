@@ -1,0 +1,206 @@
+<mvc:View
+    controllerName="com.enterprise.travelexpense.controller.Dashboard"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:suite="sap.suite.ui.commons">
+
+    <Page
+        id="dashboardPage"
+        title="{i18n>dashboardTitle}"
+        showNavButton="false"
+        busy="{appState>/busy}">
+
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Title text="{i18n>appTitle}" level="H3" />
+                </contentLeft>
+                <contentRight>
+                    <Select
+                        id="roleSelector"
+                        items="{appState>/roles}"
+                        selectedKey="{appState>/currentUser/role}"
+                        change="onRoleChange">
+                        <core:Item key="{appState>}" text="{appState>}" />
+                    </Select>
+                    <Avatar
+                        displaySize="XS"
+                        initials="JE"
+                        press="onUserAvatarPress"
+                        class="sapUiSmallMarginBegin" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <!-- Welcome Banner -->
+            <Panel class="sapUiResponsiveMargin teWelcomePanel">
+                <content>
+                    <HBox alignItems="Center" class="sapUiSmallMargin">
+                        <core:Icon 
+                            src="sap-icon://flight" 
+                            size="2rem" 
+                            color="#0070F2" 
+                            class="sapUiSmallMarginEnd" />
+                        <VBox>
+                            <Title text="{= 'Welcome, ' + ${appState>/currentUser/name}}" level="H4" />
+                            <Text text="{= 'Role: ' + ${appState>/currentUser/role}}" class="sapUiTinyMarginTop" />
+                        </VBox>
+                    </HBox>
+                </content>
+            </Panel>
+
+            <!-- KPI Tiles -->
+            <Title text="{i18n>kpiSectionTitle}" level="H4" class="sapUiResponsiveMargin sapUiSmallMarginBottom" />
+            <l:Grid
+                defaultSpan="XL3 L3 M6 S12"
+                class="sapUiResponsiveMargin">
+                <l:content>
+                    <!-- Total Requests -->
+                    <GenericTile
+                        id="tileTotalRequests"
+                        header="{i18n>kpiTotal}"
+                        subheader="{i18n>kpiTotalSub}"
+                        press="onTileTotalPress"
+                        class="sapUiTinyMargin teTile">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <NumericContent
+                                        value="{appState>/dashboard/totalRequests}"
+                                        scale=""
+                                        valueColor="Neutral"
+                                        icon="sap-icon://documents" />
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+
+                    <!-- Pending Approval -->
+                    <GenericTile
+                        id="tilePending"
+                        header="{i18n>kpiPending}"
+                        subheader="{i18n>kpiPendingSub}"
+                        press="onTilePendingPress"
+                        class="sapUiTinyMargin teTile teTilePending">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <NumericContent
+                                        value="{appState>/dashboard/pendingApproval}"
+                                        scale=""
+                                        valueColor="Critical"
+                                        icon="sap-icon://pending" />
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+
+                    <!-- Approved -->
+                    <GenericTile
+                        id="tileApproved"
+                        header="{i18n>kpiApproved}"
+                        subheader="{i18n>kpiApprovedSub}"
+                        press="onTileApprovedPress"
+                        class="sapUiTinyMargin teTile teTileApproved">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <NumericContent
+                                        value="{appState>/dashboard/approved}"
+                                        scale=""
+                                        valueColor="Good"
+                                        icon="sap-icon://accept" />
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+
+                    <!-- Rejected -->
+                    <GenericTile
+                        id="tileRejected"
+                        header="{i18n>kpiRejected}"
+                        subheader="{i18n>kpiRejectedSub}"
+                        press="onTileRejectedPress"
+                        class="sapUiTinyMargin teTile teTileRejected">
+                        <tileContent>
+                            <TileContent>
+                                <content>
+                                    <NumericContent
+                                        value="{appState>/dashboard/rejected}"
+                                        scale=""
+                                        valueColor="Error"
+                                        icon="sap-icon://decline" />
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+                </l:content>
+            </l:Grid>
+
+            <!-- Quick Actions -->
+            <Title text="{i18n>quickActions}" level="H4" class="sapUiResponsiveMargin sapUiSmallMarginBottom" />
+            <HBox wrap="Wrap" class="sapUiResponsiveMargin">
+                <!-- Employee Actions -->
+                <Button
+                    visible="{= ${appState>/currentUser/role} === 'Employee'}"
+                    text="{i18n>createRequest}"
+                    type="Emphasized"
+                    icon="sap-icon://create"
+                    press="onCreateRequest"
+                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+                <Button
+                    visible="{= ${appState>/currentUser/role} === 'Employee'}"
+                    text="{i18n>myRequests}"
+                    type="Default"
+                    icon="sap-icon://list"
+                    press="onMyRequests"
+                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+
+                <!-- Manager Actions -->
+                <Button
+                    visible="{= ${appState>/currentUser/role} === 'Manager'}"
+                    text="{i18n>pendingApprovals}"
+                    type="Emphasized"
+                    icon="sap-icon://approvals"
+                    press="onManagerApprovals"
+                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+                <Button
+                    visible="{= ${appState>/currentUser/role} === 'Manager'}"
+                    text="{i18n>allRequests}"
+                    type="Default"
+                    icon="sap-icon://list"
+                    press="onMyRequests"
+                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+
+                <!-- Finance Actions -->
+                <Button
+                    visible="{= ${appState>/currentUser/role} === 'Finance'}"
+                    text="{i18n>approvedExpenses}"
+                    type="Emphasized"
+                    icon="sap-icon://money-bills"
+                    press="onFinanceView"
+                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom" />
+            </HBox>
+
+            <!-- Recent Activity -->
+            <Title text="{i18n>recentActivity}" level="H4" class="sapUiResponsiveMargin sapUiSmallMarginBottom" />
+            <List
+                id="recentList"
+                items="{recentRequests>/}"
+                noDataText="{i18n>noRequests}"
+                class="sapUiResponsiveMargin">
+                <StandardListItem
+                    title="{recentRequests>RequestId} — {recentRequests>Destination}"
+                    description="{recentRequests>Purpose}"
+                    info="{recentRequests>Status}"
+                    infoState="{path: 'recentRequests>Status', formatter: '.formatter.statusState'}"
+                    type="Navigation"
+                    press="onRecentItemPress"
+                    icon="{path: 'recentRequests>TravelType', formatter: '.formatter.travelTypeIcon'}" />
+            </List>
+        </content>
+    </Page>
+</mvc:View>

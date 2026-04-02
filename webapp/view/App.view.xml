@@ -1,0 +1,13 @@
+<mvc:View
+    controllerName="com.enterprise.travelexpense.controller.App"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f">
+
+    <Shell>
+        <App id="appNavContainer">
+        </App>
+    </Shell>
+
+</mvc:View>

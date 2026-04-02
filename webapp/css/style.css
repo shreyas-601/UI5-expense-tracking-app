@@ -1,0 +1,168 @@
+/* ================================================
+   Travel & Expense Management – Custom Stylesheet
+   Fiori Compliant, SAP UI5 LTS
+   ================================================ */
+
+/* Welcome Panel */
+.teWelcomePanel {
+    background: linear-gradient(135deg, #0070F2 0%, #0040A0 100%);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.teWelcomePanel .sapMPanelContent {
+    background: transparent;
+}
+
+.teWelcomePanel .sapUiIcon,
+.teWelcomePanel .sapMTitle,
+.teWelcomePanel .sapMText {
+    color: #ffffff !important;
+}
+
+/* KPI Tiles */
+.teTile {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.teTile:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 8px 24px rgba(0, 112, 242, 0.18);
+}
+
+.teTile:active {
+    transform: translateY(-1px) scale(0.99);
+    box-shadow: 0 2px 8px rgba(0, 112, 242, 0.12);
+}
+
+.teTilePending .sapMGTHdrContent {
+    border-top: 4px solid #E9730C;
+}
+
+.teTileApproved .sapMGTHdrContent {
+    border-top: 4px solid #107E3E;
+}
+
+.teTileRejected .sapMGTHdrContent {
+    border-top: 4px solid #BB0000;
+}
+
+/* Finance Summary Panel */
+.teFinanceSummary {
+    background: #F7F7F7;
+    border-left: 4px solid #107E3E;
+    border-radius: 0 6px 6px 0;
+}
+
+/* Status badge override */
+.teStatusBadge {
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+/* Object Page header adjustments */
+.sapUxAPObjectPageHeaderContent {
+    background: #FAFAFA;
+    border-bottom: 1px solid #E8ECF0;
+    padding-bottom: 0.75rem;
+}
+
+/* List item hover highlight */
+.sapMListItem {
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sapMListItem:hover {
+    background-color: #EBF5FB;
+    box-shadow: inset 3px 0 0 #0070F2;
+}
+
+/* Compact toolbar */
+.sapMBar.sapMPageSubHeader {
+    background: #F0F4FA;
+    border-bottom: 1px solid #D9E3F0;
+}
+
+/* Responsive margin helpers */
+@media (max-width: 600px) {
+    .teTile {
+        min-width: 100%;
+    }
+    .teWelcomePanel {
+        margin: 0.5rem;
+    }
+}
+
+/* Footer toolbar */
+.sapMPageFooter .sapMTB {
+    background: #FFFFFF;
+    border-top: 1px solid #E5E5E5;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
+}
+
+/* Search field in header */
+.sapMSF {
+    border-radius: 20px;
+    transition: box-shadow 0.2s ease;
+}
+
+.sapMSF:focus-within {
+    box-shadow: 0 0 0 2px rgba(0, 112, 242, 0.25);
+}
+
+/* GenericTile numeric content */
+.sapMNCSValueScr {
+    font-weight: 700;
+}
+
+/* Dialog styling */
+.sapMDialog {
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* MessageStrip custom */
+.sapMMsgStrip {
+    border-radius: 6px;
+}
+
+/* ObjectStatus in header — subtle separator between items */
+.sapUxAPObjectPageHeaderContent .sapMObjStatus {
+    padding-right: 1rem;
+    border-right: 1px solid #D9E3F0;
+    margin-right: 0.5rem;
+}
+
+.sapUxAPObjectPageHeaderContent .sapMObjStatus:last-child {
+    border-right: none;
+}
+
+/* ObjectAttribute label color — slightly muted */
+.sapMObjAttr .sapMObjAttrTitle {
+    color: #556B8D;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Smooth section transitions */
+.sapUxAPObjectPageSection {
+    transition: opacity 0.2s ease;
+}
+
+/* Input focus ring */
+.sapMInputBase:focus-within {
+    box-shadow: 0 0 0 2px rgba(0, 112, 242, 0.2);
+    border-radius: 4px;
+}
+
+/* Button ripple feel via scale */
+.sapMBtn:active .sapMBtnInner {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+}

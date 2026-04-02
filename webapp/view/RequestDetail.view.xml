@@ -1,0 +1,260 @@
+<mvc:View
+    controllerName="com.enterprise.travelexpense.controller.RequestDetail"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap">
+
+    <uxap:ObjectPageLayout
+        id="objectPage"
+        busy="{appState>/busy}"
+        showTitleInHeaderContent="true"
+        alwaysShowContentHeader="false">
+
+        <!-- Object Page Header -->
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle>
+                <uxap:navigationActions>
+                    <Button
+                        icon="sap-icon://nav-back"
+                        tooltip="{i18n>back}"
+                        press="onNavBack" />
+                </uxap:navigationActions>
+                <uxap:expandedHeading>
+                    <Title id="pageTitle" text="{requestDetail>/RequestId}" wrapping="true" />
+                </uxap:expandedHeading>
+                <uxap:snappedHeading>
+                    <Title text="{requestDetail>/RequestId}" />
+                </uxap:snappedHeading>
+                <uxap:actions>
+                    <!-- Edit (Employee, Draft only) -->
+                    <Button
+                        id="btnEdit"
+                        text="{i18n>edit}"
+                        type="Emphasized"
+                        icon="sap-icon://edit"
+                        press="onEdit"
+                        visible="{parts: ['requestDetail>/Status', 'appState>/currentUser/role'], formatter: '.canEdit'}" />
+                    <!-- Submit (Employee, Draft only) -->
+                    <Button
+                        id="btnSubmit"
+                        text="{i18n>submit}"
+                        type="Accept"
+                        icon="sap-icon://paper-plane"
+                        press="onSubmit"
+                        visible="{parts: ['requestDetail>/Status', 'appState>/currentUser/role'], formatter: '.canSubmit'}" />
+                    <!-- Save (edit mode) -->
+                    <Button
+                        id="btnSave"
+                        text="{i18n>save}"
+                        type="Emphasized"
+                        icon="sap-icon://save"
+                        press="onSave"
+                        visible="{appState>/editMode}" />
+                    <!-- Cancel edit -->
+                    <Button
+                        id="btnCancelEdit"
+                        text="{i18n>cancel}"
+                        type="Default"
+                        icon="sap-icon://decline"
+                        press="onCancelEdit"
+                        visible="{appState>/editMode}" />
+                </uxap:actions>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:headerContent>
+            <HBox
+                alignItems="Center"
+                wrap="Wrap"
+                class="sapUiSmallMarginEnd">
+                <items>
+                    <ObjectStatus
+                        title="{i18n>status}"
+                        text="{requestDetail>/Status}"
+                        state="{path: 'requestDetail>/Status', formatter: '.formatter.statusState'}"
+                        icon="{path: 'requestDetail>/Status', formatter: '.formatter.statusIcon'}"
+                        class="sapUiSmallMarginEnd" />
+                    <ObjectStatus
+                        title="{i18n>travelType}"
+                        text="{requestDetail>/TravelType}"
+                        icon="{path: 'requestDetail>/TravelType', formatter: '.formatter.travelTypeIcon'}"
+                        class="sapUiSmallMarginEnd" />
+                    <ObjectAttribute
+                        title="{i18n>employee}"
+                        text="{requestDetail>/EmployeeName}"
+                        class="sapUiSmallMarginEnd" />
+                    <ObjectAttribute
+                        title="{i18n>createdAt}"
+                        text="{path: 'requestDetail>/CreatedAt', formatter: '.formatter.formatDate'}" />
+                </items>
+            </HBox>
+        </uxap:headerContent>
+
+        <!-- Sections -->
+        <uxap:sections>
+
+            <!-- Travel Information Section -->
+            <uxap:ObjectPageSection title="{i18n>travelInfoSection}" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection title="">
+                        <uxap:blocks>
+                            <f:SimpleForm
+                                id="travelInfoForm"
+                                editable="false"
+                                layout="ResponsiveGridLayout"
+                                labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false"
+                                emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                                columnsXL="2" columnsL="2" columnsM="1">
+
+                                <f:content>
+                                    <Label text="{i18n>employeeId}" required="true" />
+                                    <Input
+                                        id="inputEmployeeId"
+                                        value="{requestDetail>/EmployeeId}"
+                                        enabled="false" />
+
+                                    <Label text="{i18n>employeeName}" />
+                                    <Input
+                                        id="inputEmployeeName"
+                                        value="{requestDetail>/EmployeeName}"
+                                        enabled="false" />
+
+                                    <Label text="{i18n>travelType}" required="true" />
+                                    <Select
+                                        id="selectTravelType"
+                                        selectedKey="{requestDetail>/TravelType}"
+                                        enabled="{appState>/editMode}">
+                                        <core:Item key="Domestic" text="{i18n>domestic}" />
+                                        <core:Item key="International" text="{i18n>international}" />
+                                    </Select>
+
+                                    <Label text="{i18n>destination}" required="true" />
+                                    <Input
+                                        id="inputDestination"
+                                        value="{requestDetail>/Destination}"
+                                        placeholder="{i18n>destinationPlaceholder}"
+                                        enabled="{appState>/editMode}"
+                                        maxLength="100" />
+
+                                    <Label text="{i18n>startDate}" required="true" />
+                                    <DatePicker
+                                        id="dpStartDate"
+                                        value="{requestDetail>/StartDate}"
+                                        valueFormat="timestamp"
+                                        displayFormat="dd MMM yyyy"
+                                        enabled="{appState>/editMode}"
+                                        change="onStartDateChange" />
+
+                                    <Label text="{i18n>endDate}" required="true" />
+                                    <DatePicker
+                                        id="dpEndDate"
+                                        value="{requestDetail>/EndDate}"
+                                        valueFormat="timestamp"
+                                        displayFormat="dd MMM yyyy"
+                                        enabled="{appState>/editMode}"
+                                        change="onEndDateChange" />
+                                </f:content>
+                            </f:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Financial Information Section -->
+            <uxap:ObjectPageSection title="{i18n>financialSection}" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection title="">
+                        <uxap:blocks>
+                            <f:SimpleForm
+                                id="financialForm"
+                                editable="false"
+                                layout="ResponsiveGridLayout"
+                                labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false"
+                                emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                                columnsXL="2" columnsL="2" columnsM="1">
+
+                                <f:content>
+                                    <Label text="{i18n>estimatedAmount}" required="true" />
+                                    <Input
+                                        id="inputAmount"
+                                        value="{requestDetail>/EstimatedAmount}"
+                                        type="Number"
+                                        enabled="{appState>/editMode}"
+                                        description="{requestDetail>/Currency}" />
+
+                                    <Label text="{i18n>currency}" />
+                                    <Select
+                                        id="selectCurrency"
+                                        selectedKey="{requestDetail>/Currency}"
+                                        enabled="{appState>/editMode}">
+                                        <core:Item key="INR" text="INR — Indian Rupee" />
+                                        <core:Item key="USD" text="USD — US Dollar" />
+                                        <core:Item key="EUR" text="EUR — Euro" />
+                                        <core:Item key="GBP" text="GBP — British Pound" />
+                                        <core:Item key="SGD" text="SGD — Singapore Dollar" />
+                                        <core:Item key="AED" text="AED — UAE Dirham" />
+                                    </Select>
+                                </f:content>
+                            </f:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Purpose Section -->
+            <uxap:ObjectPageSection title="{i18n>purposeSection}" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection title="">
+                        <uxap:blocks>
+                            <f:SimpleForm
+                                id="purposeForm"
+                                editable="false"
+                                layout="ResponsiveGridLayout"
+                                labelSpanXL="2" labelSpanL="2" labelSpanM="3" labelSpanS="12"
+                                columnsXL="1" columnsL="1" columnsM="1">
+
+                                <f:content>
+                                    <Label text="{i18n>purpose}" required="true" />
+                                    <TextArea
+                                        id="textAreaPurpose"
+                                        value="{requestDetail>/Purpose}"
+                                        rows="4"
+                                        growing="true"
+                                        enabled="{appState>/editMode}"
+                                        placeholder="{i18n>purposePlaceholder}"
+                                        width="100%"
+                                        maxLength="500" />
+                                </f:content>
+                            </f:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Remarks Section (visible for non-Draft) -->
+            <uxap:ObjectPageSection
+                title="{i18n>remarksSection}"
+                titleUppercase="false"
+                visible="{= ${requestDetail>/Remarks} !== '' }">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection title="">
+                        <uxap:blocks>
+                            <VBox class="sapUiSmallMargin">
+                                <MessageStrip
+                                    text="{requestDetail>/Remarks}"
+                                    type="{path: 'requestDetail>/Status', formatter: '.formatter.statusState'}"
+                                    showIcon="true"
+                                    showCloseButton="false" />
+                            </VBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+        </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

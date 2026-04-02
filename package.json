@@ -1,0 +1,15 @@
+{
+  "name": "com.enterprise.travelexpense",
+  "version": "1.0.0",
+  "description": "Enterprise Travel & Expense Management – SAP UI5 Fiori Application",
+  "scripts": {
+    "start": "ui5 serve --open index.html",
+    "build": "ui5 build --all",
+    "test": "ui5 serve --open test/unit/unitTests.qunit.html",
+    "lint": "eslint webapp"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3.11.13",
+    "ui5-middleware-simpleproxy": "^0.9.0"
+  }
+}

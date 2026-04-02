@@ -1,0 +1,126 @@
+<mvc:View
+    controllerName="com.enterprise.travelexpense.controller.ManagerApproval"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:table="sap.ui.table">
+
+    <Page
+        id="managerApprovalPage"
+        title="{i18n>managerApprovalTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+        busy="{appState>/busy}">
+
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Button icon="sap-icon://nav-back" press="onNavBack" type="Transparent" />
+                    <Title text="{i18n>managerApprovalTitle}" />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        id="btnBulkApprove"
+                        text="{i18n>bulkApprove}"
+                        type="Accept"
+                        icon="sap-icon://accept"
+                        press="onBulkApprove"
+                        enabled="{= ${managerModel>/selectedCount} > 0}" />
+                    <Button
+                        text="{i18n>refresh}"
+                        icon="sap-icon://refresh"
+                        press="onRefresh"
+                        type="Transparent" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <subHeader>
+            <Bar>
+                <contentLeft>
+                    <Text text="{= ${managerModel>/selectedCount} + ' selected | ' + ${managerModel>/totalPending} + ' pending'}" />
+                </contentLeft>
+                <contentRight>
+                    <SearchField
+                        placeholder="{i18n>searchPlaceholder}"
+                        search="onSearch"
+                        width="15rem" />
+                </contentRight>
+            </Bar>
+        </subHeader>
+
+        <content>
+            <List
+                id="approvalList"
+                mode="MultiSelect"
+                items="{approvalList>/}"
+                noDataText="{i18n>noPendingRequests}"
+                selectionChange="onSelectionChange"
+                growing="true"
+                growingThreshold="20">
+
+                <items>
+                    <ObjectListItem
+                        title="{approvalList>RequestId} — {approvalList>Destination}"
+                        intro="{approvalList>EmployeeName} ({approvalList>EmployeeId})"
+                        number="{parts: ['approvalList>EstimatedAmount', 'approvalList>Currency'], formatter: '.formatter.formatAmount'}"
+                        numberState="Warning"
+                        highlight="Warning"
+                        type="Active">
+
+                        <attributes>
+                            <ObjectAttribute
+                                title="{i18n>travelType}"
+                                text="{approvalList>TravelType}"
+                                active="false" />
+                            <ObjectAttribute
+                                title="{i18n>startDate}"
+                                text="{path: 'approvalList>StartDate', formatter: '.formatter.formatDate'}" />
+                            <ObjectAttribute
+                                title="{i18n>endDate}"
+                                text="{path: 'approvalList>EndDate', formatter: '.formatter.formatDate'}" />
+                        </attributes>
+
+                        <firstStatus>
+                            <ObjectStatus
+                                title="{i18n>status}"
+                                text="{approvalList>Status}"
+                                state="Warning"
+                                icon="sap-icon://pending" />
+                        </firstStatus>
+
+                        <secondStatus>
+                            <ObjectStatus
+                                text="{approvalList>Purpose}"
+                                active="false" />
+                        </secondStatus>
+
+                        <!-- Inline Action Buttons -->
+                        <customData>
+                            <core:CustomData key="requestId" value="{approvalList>RequestId}" />
+                        </customData>
+                    </ObjectListItem>
+                </items>
+            </List>
+        </content>
+
+        <!-- Footer Toolbar -->
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    text="{i18n>approveSelected}"
+                    type="Accept"
+                    icon="sap-icon://accept"
+                    press="onApproveSelected"
+                    enabled="{= ${managerModel>/selectedCount} > 0}" />
+                <Button
+                    text="{i18n>rejectSelected}"
+                    type="Reject"
+                    icon="sap-icon://decline"
+                    press="onRejectSelected"
+                    enabled="{= ${managerModel>/selectedCount} > 0}" />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

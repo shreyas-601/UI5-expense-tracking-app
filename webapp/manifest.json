@@ -1,0 +1,156 @@
+{
+  "_version": "1.58.0",
+  "sap.app": {
+    "id": "com.enterprise.travelexpense",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "applicationVersion": {
+      "version": "1.0.0"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon":"sap-icon://flight",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "freestyle"
+  },
+  "sap.ui5": {
+    
+    "rootView": {
+      "viewName": "com.enterprise.travelexpense.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    },
+   
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.f": {},
+        "sap.ui.layout": {},
+        "sap.uxap": {},
+        "sap.ui.table": {},
+        "sap.ui.unified": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+      "type": "sap.ui.model.resource.ResourceModel",
+      "settings": {
+        "bundleName": "com.enterprise.travelexpense.i18n.i18n",
+        "supportedLocales": [""],
+        "fallbackLocale": ""
+      }
+    },
+     
+      "appState": {
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "model/appState.json"
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "com.enterprise.travelexpense.view",
+        "controlId": "appNavContainer",
+        "controlAggregation": "pages",
+        "async": true,
+        "transition": "slide"
+      },
+      "routes": [
+        {
+          "name": "dashboard",
+          "pattern": "",
+          "target": ["dashboard"]
+        },
+        {
+          "name": "requestList",
+          "pattern": "requests",
+          "target": ["requestList"]
+        },
+        {
+          "name": "requestCreate",
+          "pattern": "requests/create",
+          "target": ["requestDetail"]
+        },
+        {
+          "name": "requestEdit",
+          "pattern": "requests/{requestId}/edit",
+          "target": ["requestDetail"]
+        },
+        {
+          "name": "requestView",
+          "pattern": "requests/{requestId}",
+          "target": ["requestDetail"]
+        },
+        {
+          "name": "managerApproval",
+          "pattern": "approvals",
+          "target": ["managerApproval"]
+        },
+        {
+          "name": "financeView",
+          "pattern": "finance",
+          "target": ["financeView"]
+        }
+      ],
+      "targets": {
+        "dashboard": {
+          "viewName": "Dashboard",
+          "viewId": "dashboard",
+          "viewLevel": 1
+        },
+        "requestList": {
+          "viewName": "RequestList",
+          "viewId": "requestList",
+          "viewLevel": 2
+        },
+        "requestDetail": {
+          "viewName": "RequestDetail",
+          "viewId": "requestDetail",
+          "viewLevel": 3
+        },
+        "managerApproval": {
+          "viewName": "ManagerApproval",
+          "viewId": "managerApproval",
+          "viewLevel": 2
+        },
+        "financeView": {
+          "viewName": "FinanceView",
+          "viewId": "financeView",
+          "viewLevel": 2
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    }
+  }
+}

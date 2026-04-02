@@ -1,0 +1,147 @@
+<mvc:View
+    controllerName="com.enterprise.travelexpense.controller.FinanceView"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout">
+
+    <Page
+        id="financeViewPage"
+        title="{i18n>financeViewTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+        busy="{appState>/busy}">
+
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Button icon="sap-icon://nav-back" press="onNavBack" type="Transparent" />
+                    <Title text="{i18n>financeViewTitle}" />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        text="{i18n>exportExcel}"
+                        icon="sap-icon://excel-attachment"
+                        press="onExport"
+                        type="Ghost" />
+                    <Button
+                        text="{i18n>refresh}"
+                        icon="sap-icon://refresh"
+                        press="onRefresh"
+                        type="Transparent" />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <!-- Filter Bar -->
+        <subHeader>
+            <Bar>
+                <contentLeft>
+                    <Label text="{i18n>filterByEmployee}" />
+                    <Input
+                        id="filterEmployee"
+                        placeholder="{i18n>employeeIdPlaceholder}"
+                        width="12rem"
+                        liveChange="onFilterChange" />
+                    <Label text="{i18n>filterFromDate}" class="sapUiSmallMarginBegin" />
+                    <DatePicker
+                        id="filterFromDate"
+                        displayFormat="dd MMM yyyy"
+                        valueFormat="yyyy-MM-dd"
+                        change="onFilterChange"
+                        width="10rem" />
+                    <Label text="{i18n>filterToDate}" class="sapUiSmallMarginBegin" />
+                    <DatePicker
+                        id="filterToDate"
+                        displayFormat="dd MMM yyyy"
+                        valueFormat="yyyy-MM-dd"
+                        change="onFilterChange"
+                        width="10rem" />
+                    <Label text="{i18n>minAmount}" class="sapUiSmallMarginBegin" />
+                    <Input
+                        id="filterMinAmount"
+                        type="Number"
+                        placeholder="0"
+                        width="8rem"
+                        liveChange="onFilterChange" />
+                    <Button
+                        text="{i18n>clearFilters}"
+                        icon="sap-icon://clear-filter"
+                        press="onClearFilters"
+                        type="Transparent"
+                        class="sapUiSmallMarginBegin" />
+                </contentLeft>
+            </Bar>
+        </subHeader>
+
+        <content>
+            <!-- Summary Panel -->
+            <Panel class="sapUiResponsiveMargin teFinanceSummary">
+                <content>
+                    <HBox justifyContent="SpaceAround" class="sapUiSmallMargin">
+                        <VBox alignItems="Center">
+                            <Title text="{financeModel>/totalCount}" level="H2" />
+                            <Label text="{i18n>totalApproved}" />
+                        </VBox>
+                        <VBox alignItems="Center">
+                            <Title text="{financeModel>/totalAmountFormatted}" level="H2" />
+                            <Label text="{i18n>totalAmount}" />
+                        </VBox>
+                        <VBox alignItems="Center">
+                            <Title text="{financeModel>/domesticCount}" level="H2" />
+                            <Label text="{i18n>domestic}" />
+                        </VBox>
+                        <VBox alignItems="Center">
+                            <Title text="{financeModel>/internationalCount}" level="H2" />
+                            <Label text="{i18n>international}" />
+                        </VBox>
+                    </HBox>
+                </content>
+            </Panel>
+
+            <!-- Approved Requests List -->
+            <List
+                id="financeList"
+                items="{financeList>/}"
+                noDataText="{i18n>noApprovedRequests}"
+                growing="true"
+                growingThreshold="25"
+                growingScrollToLoad="true">
+
+                <items>
+                    <ObjectListItem
+                        title="{financeList>RequestId} — {financeList>Destination}"
+                        intro="{financeList>EmployeeName} ({financeList>EmployeeId})"
+                        number="{parts: ['financeList>EstimatedAmount', 'financeList>Currency'], formatter: '.formatter.formatAmount'}"
+                        numberState="Success"
+                        highlight="Success"
+                        type="Inactive">
+
+                        <attributes>
+                            <ObjectAttribute
+                                title="{i18n>travelType}"
+                                text="{financeList>TravelType}" />
+                            <ObjectAttribute
+                                title="{i18n>startDate}"
+                                text="{path: 'financeList>StartDate', formatter: '.formatter.formatDate'}" />
+                            <ObjectAttribute
+                                title="{i18n>endDate}"
+                                text="{path: 'financeList>EndDate', formatter: '.formatter.formatDate'}" />
+                            <ObjectAttribute
+                                title="{i18n>purpose}"
+                                text="{financeList>Purpose}" />
+                        </attributes>
+
+                        <firstStatus>
+                            <ObjectStatus
+                                title="{i18n>status}"
+                                text="Approved"
+                                state="Success"
+                                icon="sap-icon://accept" />
+                        </firstStatus>
+                    </ObjectListItem>
+                </items>
+            </List>
+        </content>
+    </Page>
+</mvc:View>

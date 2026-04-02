@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Unit Tests — Travel &amp; Expense Management</title>
+
+    <script
+        id="sap-ui-bootstrap"
+        src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-libs="sap.m,sap.ui.layout"
+        data-sap-ui-resourceroots='{
+            "com.enterprise.travelexpense": "../../"
+        }'
+        data-sap-ui-preload=""
+        data-sap-ui-xx-waitForTheme="true">
+    </script>
+
+    <link rel="stylesheet" href="https://openui5.hana.ondemand.com/resources/sap/ui/thirdparty/qunit-2.css" />
+    <script src="https://openui5.hana.ondemand.com/resources/sap/ui/thirdparty/qunit-2.js"></script>
+    <script src="https://openui5.hana.ondemand.com/resources/sap/ui/qunit/qunit-junit.js"></script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+    <script>
+        sap.ui.getCore().attachInit(function () {
+            sap.ui.require([
+                "com/enterprise/travelexpense/test/unit/formatter/FormatterTest",
+                "com/enterprise/travelexpense/test/unit/controller/MockDataServiceTest"
+            ]);
+        });
+    </script>
+</body>
+</html>

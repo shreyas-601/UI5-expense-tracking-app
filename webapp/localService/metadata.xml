@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:DataServices m:DataServiceVersion="2.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+        <Schema Namespace="TRAVEL_EXPENSE_SRV" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+
+            <!-- TravelRequest Entity Type -->
+            <EntityType Name="TravelRequest">
+                <Key>
+                    <PropertyRef Name="RequestId" />
+                </Key>
+                <Property Name="RequestId"       Type="Edm.String"   Nullable="false" MaxLength="10" />
+                <Property Name="EmployeeId"      Type="Edm.String"   Nullable="false" MaxLength="10" />
+                <Property Name="EmployeeName"    Type="Edm.String"   Nullable="false" MaxLength="100" />
+                <Property Name="TravelType"      Type="Edm.String"   Nullable="false" MaxLength="20" />
+                <Property Name="StartDate"       Type="Edm.DateTime" Nullable="true" />
+                <Property Name="EndDate"         Type="Edm.DateTime" Nullable="true" />
+                <Property Name="Destination"     Type="Edm.String"   Nullable="false" MaxLength="100" />
+                <Property Name="EstimatedAmount" Type="Edm.Decimal"  Nullable="false" Precision="15" Scale="2" />
+                <Property Name="Currency"        Type="Edm.String"   Nullable="false" MaxLength="5" />
+                <Property Name="Purpose"         Type="Edm.String"   Nullable="false" MaxLength="500" />
+                <Property Name="Status"          Type="Edm.String"   Nullable="false" MaxLength="20" />
+                <Property Name="Remarks"         Type="Edm.String"   Nullable="true"  MaxLength="500" />
+                <Property Name="CreatedAt"       Type="Edm.DateTime" Nullable="true" />
+                <Property Name="UpdatedAt"       Type="Edm.DateTime" Nullable="true" />
+            </EntityType>
+
+            <!-- Entity Container -->
+            <EntityContainer Name="TRAVEL_EXPENSE_SRV" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="TravelRequests" EntityType="TRAVEL_EXPENSE_SRV.TravelRequest" />
+
+                <FunctionImport Name="SubmitRequest"
+                    ReturnType="TRAVEL_EXPENSE_SRV.TravelRequest"
+                    m:HttpMethod="POST">
+                    <Parameter Name="RequestId" Type="Edm.String" Mode="In" />
+                </FunctionImport>
+
+                <FunctionImport Name="ApproveRequest"
+                    ReturnType="TRAVEL_EXPENSE_SRV.TravelRequest"
+                    m:HttpMethod="POST">
+                    <Parameter Name="RequestId" Type="Edm.String" Mode="In" />
+                    <Parameter Name="Remarks"   Type="Edm.String" Mode="In" />
+                </FunctionImport>
+
+                <FunctionImport Name="RejectRequest"
+                    ReturnType="TRAVEL_EXPENSE_SRV.TravelRequest"
+                    m:HttpMethod="POST">
+                    <Parameter Name="RequestId" Type="Edm.String" Mode="In" />
+                    <Parameter Name="Remarks"   Type="Edm.String" Mode="In" />
+                </FunctionImport>
+            </EntityContainer>
+
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

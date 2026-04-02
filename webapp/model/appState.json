@@ -1,0 +1,18 @@
+{
+  "currentUser": {
+    "id": "EMP001",
+    "name": "John Employee",
+    "role": "Employee"
+  },
+  "roles": ["Employee", "Manager", "Finance"],
+  "busy": false,
+  "busyDelay": 0,
+    "dashboard": {
+    "totalRequests": 0,
+    "pendingApproval": 0,
+    "approved": 0,
+    "rejected": 0
+  },
+  "selectedRequest": null,
+  "editMode": false
+}
