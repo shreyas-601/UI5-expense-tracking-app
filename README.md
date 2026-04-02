@@ -237,3 +237,20 @@ npm test
 | **Business Logic (20%)** | Full status workflow, role-based access, CRUD, bulk approval, validation |
 | **Code Quality (20%)** | No logic in XML, utility classes, zero hardcoding, reusable components |
 | **UX & Fiori (10%)** | Object Page, List Report, Horizon theme, responsive, MessageBox/Toast |
+
+## Screenshots
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Create Request
+![Create Request](screenshots/create-request.png)
+
+### Request List
+![Request List](screenshots/requests.png)
+
+### Manager Approval
+![Manager Approval](screenshots/manager-approval.png)
+
+### Finance Tracker
+![Finance Tracker](screenshots/finance-tracker.png)
